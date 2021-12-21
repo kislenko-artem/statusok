@@ -6,11 +6,14 @@ import (
 
 func TestAddEmptyNotifyObject(t *testing.T) {
 
-	notificationTypes := NotificationTypes{MailNotify{},
-		MailgunNotify{},
-		SlackNotify{},
-		HttpNotify{},
-		PagerdutyNotify{}}
+	notificationTypes := NotificationTypes{[]MailNotify{},
+		[]MailgunNotify{},
+		[]SlackNotify{},
+		[]HttpNotify{},
+		[]DingdingNotify{},
+		[]PagerdutyNotify{},
+		[]TelegramNotify{},
+	}
 
 	AddNew(notificationTypes)
 
@@ -21,11 +24,14 @@ func TestAddEmptyNotifyObject(t *testing.T) {
 
 func TestAddValidNotifyObject(t *testing.T) {
 
-	notificationTypes := NotificationTypes{MailNotify{},
-		MailgunNotify{},
-		SlackNotify{},
-		HttpNotify{"http://statusOk.com", "GET", nil},
-		PagerdutyNotify{}}
+	notificationTypes := NotificationTypes{[]MailNotify{},
+		[]MailgunNotify{},
+		[]SlackNotify{},
+		[]HttpNotify{},
+		[]DingdingNotify{},
+		[]PagerdutyNotify{},
+		[]TelegramNotify{},
+	}
 
 	AddNew(notificationTypes)
 

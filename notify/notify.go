@@ -3,19 +3,19 @@ package notify
 import (
 	"fmt"
 	"os"
-	"reflect"
 	"regexp"
 	"strings"
 )
 
-//Diffrent types of clients to deliver notifications
+// NotificationTypes Different types of clients to deliver notifications
 type NotificationTypes struct {
-	MailNotify MailNotify      `json:"mail"`
-	Mailgun    MailgunNotify   `json:"mailGun"`
-	Slack      SlackNotify     `json:"slack"`
-	Http       HttpNotify      `json:"httpEndPoint"`
-	Dingding   DingdingNotify  `json:"dingding"`
-	Pagerduty  PagerdutyNotify `json:"pagerduty"`
+	MailNotify []MailNotify      `json:"mail"`
+	Mailgun    []MailgunNotify   `json:"mailGun"`
+	Slack      []SlackNotify     `json:"slack"`
+	Http       []HttpNotify      `json:"httpEndPoint"`
+	Dingding   []DingdingNotify  `json:"dingding"`
+	Pagerduty  []PagerdutyNotify `json:"pagerduty"`
+	Telegram   []TelegramNotify  `json:"telegram"`
 }
 
 type ResponseTimeNotification struct {
@@ -34,7 +34,6 @@ type ErrorNotification struct {
 }
 
 var (
-	errorCount        = 0
 	notificationsList []Notify
 )
 
@@ -45,17 +44,35 @@ type Notify interface {
 	SendErrorNotification(notification ErrorNotification) error
 }
 
-//Add notification clients given by user in config file to notificationsList
+// AddNew notification clients given by user in config file to notificationsList
 func AddNew(notificationTypes NotificationTypes) {
-
-	v := reflect.ValueOf(notificationTypes)
-
-	for i := 0; i < v.NumField(); i++ {
-		notifyString := fmt.Sprint(v.Field(i).Interface().(Notify))
-		//Check whether notify object is empty . if its not empty add to the list
-		if !isEmptyObject(notifyString) {
-			notificationsList = append(notificationsList, v.Field(i).Interface().(Notify))
-		}
+	for _, n := range notificationTypes.MailNotify {
+		var notify Notify = n
+		notificationsList = append(notificationsList, notify)
+	}
+	for _, n := range notificationTypes.Mailgun {
+		var notify Notify = n
+		notificationsList = append(notificationsList, notify)
+	}
+	for _, n := range notificationTypes.Slack {
+		var notify Notify = n
+		notificationsList = append(notificationsList, notify)
+	}
+	for _, n := range notificationTypes.Http {
+		var notify Notify = n
+		notificationsList = append(notificationsList, notify)
+	}
+	for _, n := range notificationTypes.Dingding {
+		var notify Notify = n
+		notificationsList = append(notificationsList, notify)
+	}
+	for _, n := range notificationTypes.Pagerduty {
+		var notify Notify = n
+		notificationsList = append(notificationsList, notify)
+	}
+	for _, n := range notificationTypes.Telegram {
+		var notify Notify = n
+		notificationsList = append(notificationsList, notify)
 	}
 
 	if len(notificationsList) == 0 {
@@ -77,7 +94,7 @@ func AddNew(notificationTypes NotificationTypes) {
 	}
 }
 
-//Send response time notification to all clients registered
+// SendResponseTimeNotification response time notification to all clients registered
 func SendResponseTimeNotification(responseTimeNotification ResponseTimeNotification) {
 
 	for _, value := range notificationsList {
@@ -90,7 +107,7 @@ func SendResponseTimeNotification(responseTimeNotification ResponseTimeNotificat
 	}
 }
 
-//Send Error notification to all clients registered
+// SendErrorNotification Send Error notification to all clients registered
 func SendErrorNotification(errorNotification ErrorNotification) {
 
 	for _, value := range notificationsList {
@@ -103,7 +120,7 @@ func SendErrorNotification(errorNotification ErrorNotification) {
 	}
 }
 
-//Send Test notification to all registered clients .To make sure everything is working
+// SendTestNotification Send Test notification to all registered clients .To make sure everything is working
 func SendTestNotification() {
 
 	println("Sending Test notifications to the registered clients")

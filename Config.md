@@ -44,7 +44,7 @@ Config file should be in JSON format (Support for other formats will be added in
 }
 
 ```
-[Click here](https://github.com/sanathp/StatusOK/blob/master/sample_config.json) to view the Sample config file. Scroll down for more details on requests,notifications and database setup.
+[Click here](https://github.com/kislenko-artem/statusok/blob/master/sample_config.json) to view the Sample config file. Scroll down for more details on requests,notifications and database setup.
 
 ## Requests
 
@@ -121,7 +121,18 @@ Notifications will be triggered when mean response time is below given response 
 4)Http EndPoint
 5)Dingding
 ```
-[Write your own client](https://github.com/sanathp/statusok/blob/master/Config.md#write-your-own-notification-client)
+[Write your own client](https://github.com/kislenko-artem/statusok/blob/master/Config.md#write-your-own-notification-client)
+
+### Telegram
+
+To recieve notifications to your Telegram Channel/Chat, add below block to your config file with your telegram details
+
+```
+"telegram":{
+	"botToken":"bot token",
+	"chatID":"chat id"
+}
+```
 
 ### Slack
 
@@ -191,7 +202,7 @@ To recieve notifications to any Dingding add below block to your config file wit
 
 ### Write Your own Notification Client
 
-If you want to recieve Notifications to any other clients. Write a struct with below methods and add the Struct to NotificationTypes in [notify.go](https://github.com/sanathp/statusok/blob/master/notify/notify.go) file.
+If you want to recieve Notifications to any other clients. Write a struct with below methods and add the Struct to NotificationTypes in [notify.go](https://github.com/kislenko-artem/statusok/blob/master/notify/notify.go) file.
 
 ```
 GetClientName() string
@@ -203,7 +214,7 @@ If you have written a new notification client which is useful to others, feel fr
 
 ## Database
  
-Save Requests response time information and error information to your database by adding database details to config file. Currently only Influxdb 0.9.3+ is supported.[Add support to your database](https://github.com/sanathp/statusok/blob/master/Config.md#save-data-to-any-other-database)
+Save Requests response time information and error information to your database by adding database details to config file. Currently only Influxdb 0.9.3+ is supported.[Add support to your database](https://github.com/kislenko-artem/statusok/blob/master/Config.md#save-data-to-any-other-database)
 
 ### Influx Db 0.9.3+
 
@@ -244,11 +255,11 @@ Graphana will be running on port 3000 (http://localhost:3000)
 
 Create a new Dahsboard to view graphs as mentioned here http://docs.grafana.org/datasources/influxdb .
 
-![alt text](https://github.com/sanathp/StatusOK/raw/master/screenshots/graphana.png "Graphana Screenshot")
+![alt text](https://github.com/kislenko-artem/statusok/raw/master/screenshots/graphana.png "Graphana Screenshot")
 
 ### Save Data to any other Database
 
-Write a struct with below methods and add the Struct to DatabaseTypes in [database.go](https://github.com/sanathp/statusok/blob/master/database/database.go) file.
+Write a struct with below methods and add the Struct to DatabaseTypes in [database.go](https://github.com/kislenko-artem/statusok/blob/master/database/database.go) file.
 
 ```
 Initialize() error
